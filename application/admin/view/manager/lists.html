@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+<head>
+    {include file="base/head" /}
+</head>
+<body>
+<div class="x-nav">
+          <span class="layui-breadcrumb">
+            <a href="">首页</a>
+            <a href="">管理员管理</a>
+            <a>
+              <cite>管理员列表</cite></a>
+          </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
+</div>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <form class="layui-form layui-col-space5">
+                        <div class="layui-inline layui-show-xs-block">
+                            <input class="layui-input" autocomplete="off" placeholder="开始日" name="start" id="start">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <input class="layui-input" autocomplete="off" placeholder="截止日" name="end" id="end">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="username" placeholder="请输入用户名" autocomplete="off"
+                                   class="layui-input" value="{$map['username']|default=''}">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <button type="submit" class="layui-btn"  lay-filter="sreach"><i
+                                    class="layui-icon">&#xe615;</i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-card-header">
+                    <a  msg="你确定要删除吗?" href="{:url('del')}" class="layui-btn layui-btn-danger confirm ajax_all_del"><i class="layui-icon"></i>批量删除
+                    </a>
+                    <button class="layui-btn" onclick="xadmin.open('添加管理员','{:url('manager/add')}',600,400)"><i
+                            class="layui-icon"></i>添加
+                    </button>
+                </div>
+                <div class="layui-card-body layui-table-body layui-table-main">
+                    <table class="layui-table layui-form">
+                        <thead>
+                        <tr>
+                            <th width="5%">
+                                <input type="checkbox" lay-filter="checkall" lay-skin="primary">
+                            </th>
+                            <th width="5%">ID</th>
+                            <th width="10%">用户名</th>
+                            <th width="10%">昵称</th>
+                            <th width="10%">角色</th>
+                            <th width="15%">上次登录时间</th>
+                            <th width="15%">上次登录IP</th>
+                            <th width="5%">登录次数</th>
+                            <th width="5%">状态</th>
+                            <th width="20%">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {volist name="lists" id="vo"}
+                        <tr>
+                            <td>
+                                {eq name="Think.config.is_administrator_id" value="$vo['id']"}
+                                <input type="checkbox" value="{$vo['id']}" lay-skin="primary" disabled>
+                                {else/}
+                                <input type="checkbox" name="ids[]" value="{$vo['id']}" lay-skin="primary">
+                                {/eq}
+                            </td>
+                            <td>{$vo['id']}</td>
+                            <td>{$vo['username']}</td>
+                            <td>{$vo['nickname']}</td>
+                            <td>{$vo['role']}</td>
+                            {if condition="empty($vo['last_login_time'])"}
+                            <td>无</td>
+                            <td>无</td>
+                            {else/}
+                            <td>{$vo['last_login_time']}</td>
+                            <td>{$vo['last_ip']}</td>
+                            {/if}
+                            <td>{$vo['login']}</td>
+                            <td class="td-status">
+                                {switch $vo['status']}
+                                {case value='0'}
+                                <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>
+                                {/case}
+                                {default /}<span class="layui-btn layui-btn-normal layui-btn-mini layui-btn-disabled">已禁用</span>
+                                {/switch}
+                            <td class="td-manage">
+                                {eq name="Think.config.is_administrator_id" value="$vo['id']"}
+                                系统管理员不允许操作
+                                {else/}
+                                {eq name="vo['status']" value="1"}
+                                <a href="{:url('manager/change_stuatus',['id'=>$vo['id'],'status'=>0])}" title="启用"
+                                   class="ajax_get">
+                                    <i class="layui-icon">&#xe62f;</i>
+                                </a>
+                                {else/}
+                                <a href="{:url('manager/change_stuatus',['id'=>$vo['id'],'status'=>1])}" title="停用"
+                                   class="ajax_get">
+                                    <i class="layui-icon">&#xe601;</i>
+                                </a>
+                                {/eq}
+                                <a title="编辑" onclick="xadmin.open('编辑','{:url('manager/edit',['id'=>$vo['id']])}',600,400)"
+                                   href="javascript:;">
+                                    <i class="layui-icon">&#xe642;</i>
+                                </a>
+                                <a title="删除" msg="确定要删除{$vo['username']}吗?" href="{:url('del',['id'=>$vo['id']])}" class="ajax_get confirm">
+                                    <i class="layui-icon">&#xe640;</i>
+                                </a>
+                                {/eq}
+                            </td>
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                </div>
+                {$lists->render()}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="__STATIC__/js/jquery-2.1.4.min.js"></script>
+<script src="__STATIC__/js/common.js"></script>
+<script>
+    layui.use(['laydate', 'form'], function () {
+        var laydate = layui.laydate;
+        var form = layui.form;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+
+        // 监听全选
+        form.on('checkbox(checkall)', function (data) {
+
+            if (data.elem.checked) {
+                $('tbody input').prop('checked', true);
+            } else {
+                $('tbody input').prop('checked', false);
+            }
+            form.render('checkbox');
+        });
+
+    });
+
+
+    // function delAll(argument) {
+    //     var ids = [];
+    //
+    //     // 获取选中的id
+    //     $('tbody input').each(function (index, el) {
+    //         if ($(this).prop('checked')) {
+    //             ids.push($(this).val())
+    //         }
+    //     });
+    //
+    //     layer.confirm('确认要删除吗？' + ids.toString(), function (index) {
+    //         //捉到所有被选中的，发异步进行删除
+    //         layer.msg('删除成功', {icon: 1});
+    //         $(".layui-form-checked").not('.header').parents('tr').remove();
+    //     });
+    // }
+</script>
+</html>
