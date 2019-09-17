@@ -22,7 +22,6 @@ class Common extends Controller
                 'is_exist' => 'require|number|length:1',
             ),
         ),
-
     );
 
     /**
