@@ -88,3 +88,20 @@ CREATE TABLE `tb_manager` (
 -- Records of tb_manager
 -- ----------------------------
 INSERT INTO `tb_manager` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '超级管理员', '2019-08-28 18:02:02', '127.0.0.1', '0', '16', '2019-08-28 15:06:25', '2019-08-28 18:02:02', '0', '0');
+
+-- ----------------------------
+-- Table structure for tb_user
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_user`;
+CREATE TABLE `tb_user` (
+  `id` int(50) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+  `phone` varchar(255) DEFAULT NULL COMMENT '用户电话',
+  `password` varchar(255) DEFAULT NULL COMMENT '用户密码',
+  `nickname` varchar(255) DEFAULT NULL COMMENT '用户昵称',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户信息表';
+
+-- ----------------------------
+-- Records of tb_user
+-- ----------------------------

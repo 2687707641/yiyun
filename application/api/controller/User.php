@@ -5,7 +5,6 @@ namespace app\api\controller;
 
 
 use think\Db;
-use think\Route;
 
 class User extends Common
 {
