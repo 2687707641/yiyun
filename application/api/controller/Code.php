@@ -7,7 +7,6 @@ use qcloudsms\SmsSingleSender;
 
 class Code extends Common
 {
-
     /**
      *获取验证码
      */
@@ -42,7 +41,7 @@ class Code extends Common
         $code = $this->make_code(6);
         /*        使用seesion储存验证码，方便比对(验证码前缀用手机号区分)        */
         session($username . '_code', $code);
-        /*        使用session储存验证码发送时间            */
+//        /*        使用session储存验证码发送时间            */
         session($username . '_last_send_time', time());
         /*        发送验证码        */
         //发送验证码

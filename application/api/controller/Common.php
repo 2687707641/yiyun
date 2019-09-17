@@ -22,6 +22,20 @@ class Common extends Controller
                 'is_exist' => 'require|number|length:1',
             ),
         ),
+
+        'User' => array(
+            'register' => array(
+//                'nickname' => 'require',
+                'phone' => 'require|number',
+                'password' => 'require|min:6|max:20|alphaDash',
+                'code' => 'require|number|length:6',
+            ),
+
+            'login' => array(
+                'phone' => 'require|number',
+                'password' => 'require',
+            ),
+        ),
     );
 
     /**
@@ -109,6 +123,29 @@ class Common extends Controller
                 }
                 break;
         }
+    }
+
+
+    /**
+     * 检查验证码
+     *
+     * @param $phone 手机号
+     * @param $code 验证码
+     */
+    public function check_code($phone, $code) {
+        /*        检查时间是否超时        */
+//         $last_time = session($phone,'_last_send_time');
+//         if(time() - $last_time > 300){
+//             $this->return_msg(400,'验证超时，请在五分钟内验证!',$last_time);
+//         }
+
+        /*        检查验证码是否正确        */
+        if (session($phone . "_code") != $code) {
+            $this->return_msg(400, '验证码错误!');
+        }
+
+        /*        验证码只验证一次        */
+        // session($phone.'_code',null);
     }
 
 }
