@@ -35,6 +35,12 @@ class Common extends Controller
                 'phone' => 'require|number',
                 'password' => 'require',
             ),
+
+            'change_pwd' => array(
+                'phone' => 'require|number',
+                'user_ini_pwd' => 'require|number',
+                'user_new_pwd' => 'require|min:6|max:20|alphaDash',
+            ),
         ),
     );
 

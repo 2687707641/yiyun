@@ -50,6 +50,27 @@ class User extends Common
         }
     }
 
-
+    /**
+     * 用户修改密码
+     */
+    public function change_pwd()
+    {
+        $data = $this->params;
+        //查询用户是否存在
+        $this->check_exist($data['phone'],1);
+        //查询用户密码
+        $user = Db::name('user')->field('id,password')->where('phone',$data['phone'])->find();
+        //比对原密码
+        if($user['password'] != md5($data['user_ini_pwd'])){
+            $this->return_msg(400,'原密码错误');
+        }
+        //将新密码更新到数据库
+        $res = Db::name('user')->where('id',$user['id'])->update(['password'=>md5($data['user_new_pwd'])]);
+        if ($res != false) {
+            $this->return_msg(400, '修改密码失败!');
+        } else {
+            $this->return_msg(200, '修改密码成功!');
+        }
+    }
 
 }
