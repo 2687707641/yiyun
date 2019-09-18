@@ -46,23 +46,24 @@ CREATE TABLE `tb_auth_rule` (
   `name` varchar(80) DEFAULT NULL COMMENT '英文标识',
   `remarks` varchar(20) DEFAULT NULL COMMENT '中文描述',
   `desc` varchar(255) DEFAULT NULL COMMENT '描述',
+  `icon` varchar(255) DEFAULT NULL COMMENT '图标',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='权限节点表(菜单栏权限表)';
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='权限节点表(菜单栏权限表)';
 
 -- ----------------------------
 -- Records of tb_auth_rule
 -- ----------------------------
-INSERT INTO `tb_auth_rule` VALUES ('1', '0', '1', 'admin', '', '用户管理', null);
-INSERT INTO `tb_auth_rule` VALUES ('2', '1', '1', 'admin', 'user/lists', '用户列表', '');
-INSERT INTO `tb_auth_rule` VALUES ('3', '0', '1', 'admin', null, '商品管理', null);
-INSERT INTO `tb_auth_rule` VALUES ('4', '3', '1', 'admin', 'book/cate', '商品分类', null);
-INSERT INTO `tb_auth_rule` VALUES ('5', '3', '1', 'admin', 'book/lists', '商品列表', '');
-INSERT INTO `tb_auth_rule` VALUES ('6', '0', '1', 'admin', '', '订单管理', null);
-INSERT INTO `tb_auth_rule` VALUES ('7', '6', '1', 'admin', 'order/lists', '订单列表', null);
-INSERT INTO `tb_auth_rule` VALUES ('8', '0', '1', 'admin', null, '系统管理', null);
-INSERT INTO `tb_auth_rule` VALUES ('9', '8', '1', 'admin', 'manager/lists', '管理员列表', null);
-INSERT INTO `tb_auth_rule` VALUES ('10', '8', '1', 'admin', 'role/lists', '角色管理', null);
-INSERT INTO `tb_auth_rule` VALUES ('11', '8', '1', 'admin', 'menu/lists', '菜单管理', null);
+INSERT INTO `tb_auth_rule` VALUES ('1', '0', '1', 'admin', '', '用户管理', null, '&#xe6b8;');
+INSERT INTO `tb_auth_rule` VALUES ('2', '1', '1', 'admin', 'user/lists', '用户列表', '', null);
+INSERT INTO `tb_auth_rule` VALUES ('3', '0', '1', 'admin', null, '商品管理', null, '&#xe6f4;');
+INSERT INTO `tb_auth_rule` VALUES ('4', '3', '1', 'admin', 'book/cate', '商品分类', null, null);
+INSERT INTO `tb_auth_rule` VALUES ('5', '3', '1', 'admin', 'book/lists', '商品列表', '', null);
+INSERT INTO `tb_auth_rule` VALUES ('6', '0', '1', 'admin', '', '订单管理', null, '&#xe6fc;');
+INSERT INTO `tb_auth_rule` VALUES ('7', '6', '1', 'admin', 'order/lists', '订单列表', null, null);
+INSERT INTO `tb_auth_rule` VALUES ('8', '0', '1', 'admin', null, '系统管理', null, '&#xe6ae;');
+INSERT INTO `tb_auth_rule` VALUES ('9', '8', '1', 'admin', 'manager/lists', '管理员列表', null, '');
+INSERT INTO `tb_auth_rule` VALUES ('10', '8', '1', 'admin', 'role/lists', '角色管理', null, null);
+INSERT INTO `tb_auth_rule` VALUES ('11', '8', '1', 'admin', 'menu/lists', '菜单管理', null, null);
 
 -- ----------------------------
 -- Table structure for tb_manager
