@@ -15,10 +15,10 @@ class User extends Common
         $data = $this->params;
         //验证是否为手机号
         $this->is_phone($data['phone']);
-        //验证验证码
-        $this->check_code($data['phone'],$data['code']);
         //查询用户是否存在
         $this->check_exist($data['phone'],0);
+        //验证验证码
+        $this->check_code($data['phone'],$data['code']);
         //验证昵称是否重复
 //        $this->check_nickname($data['nickname']);
         $data['password'] = md5($data['password']);
@@ -58,7 +58,7 @@ class User extends Common
         $data = $this->params;
         //查询用户是否存在
         $this->check_exist($data['phone'],1);
-        //查询用户密码
+        //查询用户信息
         $user = Db::name('user')->field('id,password')->where('phone',$data['phone'])->find();
         //比对原密码
         if($user['password'] != md5($data['user_ini_pwd'])){
@@ -66,11 +66,33 @@ class User extends Common
         }
         //将新密码更新到数据库
         $res = Db::name('user')->where('id',$user['id'])->update(['password'=>md5($data['user_new_pwd'])]);
-        if ($res != false) {
-            $this->return_msg(400, '修改密码失败!');
-        } else {
+        if ($res !== false) {
             $this->return_msg(200, '修改密码成功!');
+        } else {
+            $this->return_msg(400, '修改密码失败!');
         }
     }
 
+    /**
+     * 用户找回密码
+     */
+    public function find_pwd()
+    {
+        $data = $this->params;
+        //查询用户是否存在
+        $this->check_exist($data['phone'],1);
+        //查询用户信息
+        $user = Db::name('user')->field('id,password')->where('phone',$data['phone'])->find();
+        //验证验证码
+        $this->check_code($data['phone'],$data['code']);
+        //将新密码更新到数据库
+        $res = Db::name('user')->where('id',$user['id'])->update(['password'=>md5($data['user_new_pwd'])]);
+        if ($res !== false) {
+            $this->return_msg(200, '修改密码成功!');
+        } else {
+            $this->return_msg(400, '修改密码失败!');
+        }
+    }
+    
+    
 }
