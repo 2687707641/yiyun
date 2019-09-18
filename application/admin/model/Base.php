@@ -32,7 +32,8 @@ class Base extends Model
         }
         return $lists;
     }
-    /*
+
+    /**
      * 详情
      * @param array $map
      * @param mixed   $field
@@ -45,7 +46,7 @@ class Base extends Model
         return $info->toArray();
     }
 
-    /*
+    /**
      * 新增
      * @param array $data
      * @return bool
@@ -55,7 +56,7 @@ class Base extends Model
         return $this->allowField(true)->save($data);
     }
 
-    /*
+    /**
      * 条件更新
      * @param array $update
      * @param array $condition
@@ -65,7 +66,8 @@ class Base extends Model
     {
         return $this->isUpdate(true)->allowField(true)->save($update, $condition);
     }
-    /*
+
+    /**
      * 更新
      * @param array $update
      * @param array $condition
@@ -79,7 +81,8 @@ class Base extends Model
             return $this->isUpdate(false)->allowField(true)->save($update);
         }
     }
-    /*
+    
+    /**
      * 删除
      * @param array $condition
      * @return bool
