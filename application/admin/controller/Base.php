@@ -40,6 +40,9 @@ class Base extends Controller
     private function get_meau()
     {
         //获取登录管理员信息
+        if(!isset($_SESSION['think']['user_auth']['role'])){
+            $this->redirect('Admin/login');
+        }
         $role_id = $_SESSION['think']['user_auth']['role'];
         //获取管理员所属角色权限
         $group = new AuthGroup();

@@ -107,7 +107,7 @@
             setTimeout(function(){
                 //ajax
                 $.ajax({
-                    url: 'index.php/admin/admin/login',
+                    url: '/index.php/admin/admin/login',
                     type: 'post', //GET
                     async: true, //或false,是否异步
                     data: $('.login-form').serialize(),
@@ -117,7 +117,7 @@
                         console.log(data);
                         if(data.code == 1){
                             layer.msg(data.msg,{time:900});
-                            setTimeout(function(){location.href="index.php/admin/index/index";},1000);
+                            setTimeout(function(){location.href="/index.php/admin/index/index";},1000);
                         }
                         if(data.code == 0){
                             layer.msg(data.msg,{time:2000});
