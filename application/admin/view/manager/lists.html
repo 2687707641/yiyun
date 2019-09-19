@@ -22,10 +22,10 @@
                 <div class="layui-card-body ">
                     <form class="layui-form layui-col-space5">
                         <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input" autocomplete="off" placeholder="开始日" name="start" id="start">
+                            <input class="layui-input" autocomplete="off" placeholder="开始日" name="start" id="start" value="{$user['start']|default=''}">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input" autocomplete="off" placeholder="截止日" name="end" id="end">
+                            <input class="layui-input" autocomplete="off" placeholder="截止日" name="end" id="end" value="{$user['end']|default=''}">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
                             <input type="text" name="username" placeholder="请输入用户名" autocomplete="off"
@@ -58,6 +58,7 @@
                             <th>上次登录时间</th>
                             <th>上次登录IP</th>
                             <th>登录次数</th>
+                            <th>创建日期</th>
                             <th>状态</th>
                             <th>操作</th>
                         </tr>
@@ -84,6 +85,7 @@
                             <td>{$vo['last_ip']}</td>
                             {/if}
                             <td>{$vo['login']}</td>
+                            <td>{$vo['create_time']}</td>
                             <td class="td-status">
                                 {switch $vo['status']}
                                 {case value='0'}

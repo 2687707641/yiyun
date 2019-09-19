@@ -91,12 +91,20 @@ class Base extends Controller
 //                    break;
                 case "start":
                     $this->_btw[0]                             = $v;
+                    if(!isset($this->_btw[1])){
+                        $this->_btw[1] = date('Y-m-d H:i:s',time());
+                    }
                     $this->_map['create_time'] = ['between', $this->_btw];
+                    $this->_user['start'] = $this->_btw[0];
                     break;
                 case "end":
                     $v = str_replace("+"," ",$v);
                     $this->_btw[1]                             = $v;
+                    if(!isset($this->_btw[0])){
+                        $this->_btw[0] = date('Y-m-d H:i:s',time());
+                    }
                     $this->_map['create_time'] = ['between', $this->_btw];
+                    $this->_user['end'] = $this->_btw[1];
                     break;
                 default:
                     $this->_map[$k] = $v;

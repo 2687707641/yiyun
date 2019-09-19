@@ -81,7 +81,7 @@ class Base extends Model
             return $this->isUpdate(false)->allowField(true)->save($update);
         }
     }
-    
+
     /**
      * 删除
      * @param array $condition
