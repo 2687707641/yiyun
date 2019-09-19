@@ -53,4 +53,5 @@ class User extends Base
             $this->error('删除失败!','');
         }
     }
+
 }

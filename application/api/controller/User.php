@@ -95,4 +95,23 @@ class User extends Common
         }
     }
 
+    /**
+     * 用户修改昵称
+     */
+    public function change_nickname()
+    {
+        $data = $this->params;
+        //检测昵称是否重复
+        $res = Db::name('user')->where('nickname',$data['nickname'])->find();
+        if($res){
+            $this->return_msg(400,'该昵称已被占用!');
+        }
+        //修改数据库
+        $res = Db::name('user')->where('id',$data['id'])->update(['nickname'=>$data['nickname']]);
+        if($res){
+            $this->return_msg(200,'修改昵称成功!');
+        }else{
+            $this->return_msg(400,'修改昵称失败!');
+        }
+    }
 }

@@ -47,6 +47,11 @@ class Common extends Controller
                 'code' => 'require|number|length:6',
                 'user_new_pwd' => 'require|min:6|max:20|alphaDash',
             ),
+
+            'change_nickname' => array(
+                'id' => 'require|number',
+                'nickname' => 'require|chsDash|min:3|max:6'
+            ),
         ),
     );
 
