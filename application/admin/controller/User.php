@@ -7,7 +7,9 @@ use app\admin\model\User as Usermodel;
 
 class User extends Base
 {
-    //列表
+    /**
+     * 展示列表
+     */
     public function lists()
     {
         $user = new Usermodel();
