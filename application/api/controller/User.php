@@ -23,12 +23,13 @@ class User extends Common
 //        $this->check_nickname($data['nickname']);
         $data['password'] = md5($data['password']);
         $data['create_time'] =  date('Y-m-d H:i:s',time());
+        $data['nickname'] = '用户'.$data['phone'];
         //写入数据库
         $res = Db::name('user')->insert($data);
         if(!$res){
             $this->return_msg(400,'用户注册失败');
         }else{
-            $this->return_msg(200,'用户添加成功');
+            $this->return_msg(200,'用户注册成功');
         }
     }
 
@@ -93,6 +94,5 @@ class User extends Common
             $this->return_msg(400, '修改密码失败!');
         }
     }
-    
-    
+
 }
