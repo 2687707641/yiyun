@@ -5,6 +5,7 @@ namespace app\admin\controller;
 
 use app\admin\model\AuthGroup;
 use app\admin\model\AuthRule;
+use app\admin\model\Logs;
 use app\admin\model\Manager as ManagerModel;
 
 class Menu extends Base
@@ -67,7 +68,8 @@ class Menu extends Base
             }
             if($res !== false){
                 //生成操作记录
-                //...
+                $log = new Logs();
+                $log->wirte_logs($this->_user['username'],$id ? '修改栏目:'.$this->_param['remarks']:'添加栏目:'.$this->_param['remarks']);
                 $this->success($id ? '修改成功':'添加成功','');
             }else{
                 $this->error($auth->getError(),'');
@@ -88,11 +90,12 @@ class Menu extends Base
         if (!empty($info)) {
             $this->error('删除失败!此栏目下还有子栏目~请选删除子栏目~!', '');
         }
-
+        $info  = AuthRule::where('id',$id)->find();
         $res = AuthRule::destroy($id);
         if($res !== false){
             //生成操作记录
-            //...
+            $log = new Logs();
+            $log->wirte_logs($this->_user['username'],'删除栏目:'.$info['remarks']);
             $this->success('删除成功!','lists');
         }else{
             $this->error('删除失败!','');

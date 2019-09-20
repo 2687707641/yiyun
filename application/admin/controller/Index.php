@@ -3,6 +3,7 @@
 
 namespace app\admin\controller;
 
+use app\admin\model\Logs;
 use think\Session;
 
 class Index extends Base
@@ -22,5 +23,5 @@ class Index extends Base
     {
         return $this->fetch();
     }
-    
+
 }

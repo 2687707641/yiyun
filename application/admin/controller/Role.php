@@ -5,6 +5,7 @@ namespace app\admin\controller;
 
 use app\admin\model\AuthGroup;
 use app\admin\model\AuthRule;
+use app\admin\model\Logs;
 class Role extends Base
 {
     public function lists()
@@ -38,6 +39,7 @@ class Role extends Base
                 $this->_param['rules'] = ',' . implode(',', $this->_param['rules']) . ',';
             }
             $auth = new AuthGroup();
+            $log = new Logs();
             //添加/修改数据库信息
             if($id){
                 $res = $auth->edit($this->_param,['id'=>$id]);
@@ -46,7 +48,7 @@ class Role extends Base
             }
             if($res !==false){
                 //生成操作记录
-                //...
+                $log->wirte_logs($this->_user['username'],$id ? '修改ID:'.$id.'的角色' : '添加角色:'.$this->_param['name']);
                 $this->success($id ? '修改成功':'添加成功','lists');
             }else{
                 $this->error($auth->getError(), '');
@@ -94,6 +96,9 @@ class Role extends Base
     {
         $res = AuthGroup::destroy($id);
         if($res !== false){
+            //生成操作记录
+            $log = new Logs();
+            $log->wirte_logs($this->_user['username'],'删除角色:'.$id);
             $this->success('删除成功','lists');
         }else{
             $this->error('删除失败','');

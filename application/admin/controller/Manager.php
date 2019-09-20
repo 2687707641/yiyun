@@ -3,6 +3,7 @@
 
 namespace app\admin\controller;
 
+use app\admin\model\Logs;
 use app\admin\model\Manager as ManagerModel;
 use app\admin\model\AuthGroup;
 
@@ -62,7 +63,8 @@ class Manager extends Base
             }
             if($res !== false){
                 //生成操作记录
-                //...
+                $log = new Logs();
+                $log->wirte_logs($this->_user['username'],$id  ? '修改管理员:'.$this->_param['username'] : '添加管理员:'.$this->_param['username']);
                 $this->success($id ? '修改成功!' : '添加成功', url('lists'));
             }else{
                 $this->error($manager->getError(), '');
@@ -99,10 +101,11 @@ class Manager extends Base
     {
         $manager = new ManagerModel();
         $res = $manager->where('id',$id)->update(['status' => $status]);
-
         if($res !== false){
             //生成操作记录
-            //...
+            $log = new Logs();
+            $info = $manager->where('id',$id)->field('username')->find();
+            $log->wirte_logs($this->_user['username'],$status == 0 ? '启用管理员:'.$info['username'] : '禁用管理员:'.$info['username']);
             $this->success($status == 0 ? '启用成功' : '禁用成功', url('lists'));
         } else {
             $this->error($status ==  0 ? '启用失败' : '禁用失败', '');
@@ -119,7 +122,8 @@ class Manager extends Base
         $res = ManagerModel::destroy($id);
         if($res !== false){
             //生成操作记录
-            //...
+            $log = new Logs();
+            $log->wirte_logs($this->_user['username'],'删除管理员ID:'.$id);
             $this->success('删除成功!','lists');
         }else{
             $this->error('删除失败!','');
