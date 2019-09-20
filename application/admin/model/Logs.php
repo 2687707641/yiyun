@@ -36,9 +36,12 @@ class Logs extends Base
     /**
      *获取日志列表
      */
-    public function get_log_data()
+    public function get_log_data($search)
     {
-
+        $where = '';
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $page = isset($_GET['limit']) ? $_GET['limit'] : 10;
+        
     }
 
     /**

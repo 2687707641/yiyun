@@ -29,15 +29,12 @@ class Log extends Base
                 $msg = '参数错误';
                 break;
             }
-            $page = $_GET['page'];
-            $limit = $_GET['limit'];
-            $arr = $log->order('id desc')->select();
-//            $count = $log->get_log_data_count();
+            $res = $log->get_log_data($search);
         }while(false);
         $data = array(
             'code' => 0,
             'msg' => $msg,
-            'data' => $arr,
+            'data' => $res,
             'count' => '',
         );
         echo json_encode($data);
