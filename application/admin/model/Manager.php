@@ -19,6 +19,8 @@ class Manager extends Base
         }
         //更改用户登录次数
         $info['login'] = $info['login'] + 1;
+        $log = new Logs();
+        $log->wirte_logs($username,'登录后台系统 '.'IP地址:'.request()->ip());
         $this->edit(['login'=>$info['login'],'last_ip'=>request()->ip(),'last_login_time'=>date('Y-m-d H:i:s',time())],['id'=>$info['id']]);
         $this->after_login($info);
         return $info;
