@@ -17,16 +17,16 @@
                 <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
             </a>
         </div>
-        <div class="layui-fluid">
+        <div class="layui-fluid layui-form">
             <div class="layui-row layui-col-space15">
                 <div class="layui-col-md12">
                     <div class="layui-card">
                         <div class="layui-card-body ">
                             <form class="layui-form layui-col-space5">
                                 <div class="layui-inline layui-show-xs-block">
-                                    <input type="text" placeholder="请输入操作者" autocomplete="off" class="layui-input" id="search"></div>
+                                    <input type="text" placeholder="请输入操作者" autocomplete="off" class="layui-input" name="name"></div>
                                 <div class="layui-inline layui-show-xs-block">
-                                    <button class="layui-btn btn-search" >
+                                    <button class="layui-btn btn-search" lay-submit lay-filter="table-search" id="table-search">
                                         <i class="layui-icon">&#xe615;</i></button>
                                 </div>
                             </form>
@@ -59,14 +59,13 @@
         });
     </script>
     <script>
-        layui.use('table', function() {
+        layui.use(['layer', 'table', 'form'], function() {
+            var $ = layui.jquery;
+            var layer = layui.layer;
             table = layui.table;
-            var content = '';
+            var form = layui.form;
             table.render({
                 elem: '#logs_table'
-                ,where:{
-                    name: $('#search').val(),
-                }
                 ,url:'get_log_data'
                 ,cols:[[
                     {field: 'id', title: 'ID',sort: true}
@@ -74,9 +73,39 @@
                     ,{field: 'logs', title: '动作'}
                     ,{field: 'create_time', title: '时间',sort: true}
                 ]]
+                ,id:'tableReload'
+                ,page:{
+                    group:3,
+                }
+                ,done:function (res,curr,count) {
+                    console.log(res);
+                    console.log(curr);
+                    console.log(count);
+                    if(res['msg']!= ''){
+                        layer.msg(res['msg']);
+                    }
+                }
             });
+
+            //监听搜索
+            form.on('submit(table-search)', function (data) {
+                var field = data.field;
+                //执行重载
+                table.reload('tableReload', {
+                    where: {where: field}
+                });
+                return false;
+            });
+
+            //键盘事件
+            $(document).keydown(function (e) {
+                if (e.keyCode == 13) {
+                    document.getElementById("table-search").click();
+                }
+            })
+
+
         });
-
-
+        
     </script>
 </html>

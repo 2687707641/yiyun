@@ -21,25 +21,24 @@ class Log extends Base
      */
     public function get_log_data()
     {
-
-        $code = 0;
         $msg = '';
         $log = new Logs();
         do{
-            $content = $_GET['name'];
-            $page = $_GET['page'];
-            $limit = $_GET['limit'];
-            if(!isset($page) || !isset($limit)){
+            $search = isset($_GET['where']) ? $_GET['where'] : ""; //附加条件
+            if(!isset($_GET['page']) || !isset($_GET['limit'])){
                 $msg = '参数错误';
                 break;
             }
+            $page = $_GET['page'];
+            $limit = $_GET['limit'];
             $arr = $log->order('id desc')->select();
+//            $count = $log->get_log_data_count();
         }while(false);
         $data = array(
-            'code' => $code,
+            'code' => 0,
             'msg' => $msg,
             'data' => $arr,
-            'content' => $content,
+            'count' => '',
         );
         echo json_encode($data);
     }
