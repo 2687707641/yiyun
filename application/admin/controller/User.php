@@ -3,6 +3,7 @@
 
 namespace app\admin\controller;
 
+use app\admin\model\Logs;
 use app\admin\model\User as Usermodel;
 
 class User extends Base
@@ -28,9 +29,11 @@ class User extends Base
     {
         $user = new Usermodel();
         $res = $user->where('id',$id)->update(['status' => $status]);
+        $info = $user->where('id',$id)->field('phone')->find();
         if($res !== false){
             //生成操作记录
-            //...
+            $log = new Logs();
+            $log->wirte_logs($this->_user['username'],$status == 0 ? '启用用户: '. $info['phone'] : '禁用用户: '. $info['phone']);
             $this->success($status == 0 ? '启用成功' : '禁用成功', url('lists'));
         } else {
             $this->error($status ==  0 ? '启用失败' : '禁用失败', '');
@@ -47,7 +50,8 @@ class User extends Base
         $res = Usermodel::destroy($id);
         if($res !== false){
             //生成操作记录
-            //...
+            $log = new Logs();
+            $log->wirte_logs($this->_user['username'],'删除用户: ' .$id);
             $this->success('删除成功!','lists');
         }else{
             $this->error('删除失败!','');
