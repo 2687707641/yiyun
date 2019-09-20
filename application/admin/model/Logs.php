@@ -30,7 +30,7 @@ class Logs extends Base
      */
     public function get_log_data_count()
     {
-
+        return Db::name('logs')->count();
     }
 
     /**
@@ -39,17 +39,16 @@ class Logs extends Base
     public function get_log_data($search)
     {
         $where = '';
+        if(isset($search['name'])){
+            $where = 'name like \'%'.$search['name'].'%\'';
+        }
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
-        $page = isset($_GET['limit']) ? $_GET['limit'] : 10;
-        
+        $offset = isset($_GET['limit']) ? $_GET['limit'] : 10;
+        $limit        = " limit " . ($page - 1) * $offset . "," . $offset;
+
+        $res = Db::name('logs')->where($where)->order('id desc')->limit($limit)->select();
+        return $res;
     }
 
-    /**
-     * 获取日志列表附加条件
-     */
-    public function get_log_data_query_condition()
-    {
-
-    }
 
 }

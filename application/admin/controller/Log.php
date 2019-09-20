@@ -30,12 +30,13 @@ class Log extends Base
                 break;
             }
             $res = $log->get_log_data($search);
+            $count = $log->get_log_data_count();
         }while(false);
         $data = array(
             'code' => 0,
             'msg' => $msg,
             'data' => $res,
-            'count' => '',
+            'count' => $count,
         );
         echo json_encode($data);
     }
