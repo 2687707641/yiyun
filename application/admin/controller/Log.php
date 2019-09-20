@@ -30,7 +30,7 @@ class Log extends Base
                 break;
             }
             $res = $log->get_log_data($search);
-            $count = $log->get_log_data_count();
+            $count = $log->get_log_data_count($search);
         }while(false);
         $data = array(
             'code' => 0,

@@ -28,9 +28,13 @@ class Logs extends Base
      * 获取日志条数
      * @return 日志条数
      */
-    public function get_log_data_count()
+    public function get_log_data_count($search)
     {
-        return Db::name('logs')->count();
+        $where = '';
+        if(isset($search['name'])){
+            $where = 'name like \'%'.$search['name'].'%\'';
+        }
+        return Db::name('logs')->where($where)->count();
     }
 
     /**
@@ -45,7 +49,6 @@ class Logs extends Base
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $offset = isset($_GET['limit']) ? $_GET['limit'] : 10;
         $limit        = " limit " . ($page - 1) * $offset . "," . $offset;
-
         $res = Db::name('logs')->where($where)->order('id desc')->limit($limit)->select();
         return $res;
     }
