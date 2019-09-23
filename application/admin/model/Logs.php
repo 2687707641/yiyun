@@ -53,7 +53,7 @@ class Logs extends Base
 //        $limit  = " limit " . ($page - 1) * $offset . "," . $offset;
         $limit  = ($page - 1) * $offset . "," . $offset;
         $res = Db::name('logs')->where($where)->order($order)->limit($limit)->select();
-        Log::record($this->getLastSql());
+//        Log::record($this->getLastSql());
         return $res;
     }
 
