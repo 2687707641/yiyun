@@ -45,8 +45,9 @@ class Logs extends Base
         if(isset($search['name'])){
             $where = 'name like \'%'.$search['name'].'%\'';
         }
-        $field = isset($_GET['filed']) ? $_GET['filed']  : 'id';
+        $field = isset($_GET['field']) ? $_GET['field']  : 'id';
         $order = isset($_GET['order']) ? $field.' '.$_GET['order'] : $field.' desc';
+        $order .= ', id desc';
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $offset = isset($_GET['limit']) ? $_GET['limit'] : 10;
 //        $limit  = " limit " . ($page - 1) * $offset . "," . $offset;
