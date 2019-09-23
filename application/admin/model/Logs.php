@@ -3,9 +3,8 @@
 
 namespace app\admin\model;
 
-
 use think\Db;
-
+use think\Log;
 class Logs extends Base
 {
     protected $autoWriteTimestamp = 'datetime';
@@ -48,8 +47,10 @@ class Logs extends Base
         }
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $offset = isset($_GET['limit']) ? $_GET['limit'] : 10;
-        $limit        = " limit " . ($page - 1) * $offset . "," . $offset;
+//        $limit  = " limit " . ($page - 1) * $offset . "," . $offset;
+        $limit  = ($page - 1) * $offset . "," . $offset;
         $res = Db::name('logs')->where($where)->order('id desc')->limit($limit)->select();
+//        Log::record($this->getLastSql());
         return $res;
     }
 
