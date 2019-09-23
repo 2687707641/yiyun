@@ -57,6 +57,12 @@ class Manager extends Base
             //加密密码
             $this->_param['password'] = md5($this->_param['password']);
             if($id){
+                //查询信息
+                $info = $manager->where('id',$id)->find();
+                //判断原密码
+                if(md5($this->_param['used_pwd'])!= $info['password']){
+                    $this->error('原密码不正确');
+                }
                 $res = $manager->edit($this->_param,['id'=>$id]);
             }else{
                 $res = $manager->add($this->_param);
