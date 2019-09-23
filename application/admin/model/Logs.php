@@ -45,12 +45,14 @@ class Logs extends Base
         if(isset($search['name'])){
             $where = 'name like \'%'.$search['name'].'%\'';
         }
+        $field = isset($_GET['filed']) ? $_GET['filed']  : 'id';
+        $order = isset($_GET['order']) ? $field.' '.$_GET['order'] : $field.' desc';
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $offset = isset($_GET['limit']) ? $_GET['limit'] : 10;
 //        $limit  = " limit " . ($page - 1) * $offset . "," . $offset;
         $limit  = ($page - 1) * $offset . "," . $offset;
-        $res = Db::name('logs')->where($where)->order('id desc')->limit($limit)->select();
-//        Log::record($this->getLastSql());
+        $res = Db::name('logs')->where($where)->order($order)->limit($limit)->select();
+        Log::record($this->getLastSql());
         return $res;
     }
 

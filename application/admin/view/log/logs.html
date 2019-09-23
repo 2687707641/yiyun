@@ -74,6 +74,11 @@
                     ,{field: 'create_time', title: '时间',sort: true}
                 ]]
                 ,id:'tableReload'
+                ,sort:true
+                ,initSort:{
+                    field:'id'
+                    ,type:'desc'
+                }
                 ,page:{
                     group:3,
                 }
@@ -83,6 +88,25 @@
                     }
                 }
             });
+
+            //监听排序
+            table.on('sort(test)',function (obj) {
+                //layui中table会有三种排序状态，按顺序分别是  升序(asc)、降序(desc)、返回点击前初始状态排序(null)。
+                //跳过null阶段
+                if(obj.type != 'desc' && obj.type != 'asc'){
+                    obj.type = 'asc';
+                }
+                console.log(obj.field); //当前排序的字段名
+                console.log(obj.type); //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序）
+                table.reload('tableReload', {
+                    initSort: obj ////记录初始排序，如果不设的话，将无法标记表头的排序状态。 layui 2.1.1 新增参数
+                    ,where: {
+                        field : obj.field
+                        ,order: obj.type
+                    }
+                });
+                // return false;
+            })
 
             //监听搜索
             form.on('submit(table-search)', function (data) {
