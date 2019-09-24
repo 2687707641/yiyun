@@ -26,7 +26,7 @@
                     <select id="shipping" name="pid" class="valid">
                         <option value="0">顶级栏目</option>
                         {volist name="lists" id="vo"}
-                        <option value="{$vo.id}" {if isset($info['pid'])&&$info['pid']==$vo['id'] }selected{/if} {if !getChildCate($vo.id)}disabled{/if} >{for start="0" end="$vo.level"} &nbsp;&nbsp;&nbsp;&nbsp; {/for}{$vo.name}</option>
+                        <option value="{$vo.id}" {if isset($info['pid'])&&$info['pid']==$vo['id'] }selected{/if} {if !getChildCate($vo.id) && $vo.level ==2}disabled{/if} >{for start="0" end="$vo.level"} &nbsp;&nbsp;&nbsp;&nbsp; {/for}{$vo.name}</option>
                         {/volist}
                     </select>
                 </div>

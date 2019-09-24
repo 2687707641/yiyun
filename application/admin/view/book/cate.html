@@ -44,7 +44,7 @@
                             <td>{$vo.id}</td>
                             <td>
                                 {for start="0" end="$vo.level"} &nbsp;&nbsp;&nbsp;&nbsp; {/for}
-                                {if !empty(getChildCate($vo.id)) || $vo.pid == 0}<i class="layui-icon x-show" status='true'>&#xe623;</i>{else /}
+                                {if !empty(getChildCate($vo.id)) || $vo.pid == 0 || $vo.level !=2}<i class="layui-icon x-show" status='true'>&#xe623;</i>{else /}
                                 ├
                                 {/if}
                                 {$vo.name}
