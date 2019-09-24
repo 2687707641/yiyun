@@ -44,6 +44,17 @@
                             </select>
                         </div>
                         <div class="layui-input-inline layui-show-xs-block">
+                            <select name="contrller">
+                                <option value="">全部</option>
+                                <!--                                <option value="0">待确认</option>-->
+                                <!--                                <option value="1">已确认</option>-->
+                                <!--                                <option value="2">已收货</option>-->
+                                <!--                                <option value="3">已取消</option>-->
+                                <!--                                <option value="4">已完成</option>-->
+                                <!--                                <option value="5">已作废</option>-->
+                            </select>
+                        </div>
+                        <div class="layui-input-inline layui-show-xs-block">
                             <input type="text" name="username" placeholder="请输入名称" autocomplete="off" class="layui-input"></div>
                         <div class="layui-input-inline layui-show-xs-block">
                             <button class="layui-btn" lay-submit="" lay-filter="sreach">
@@ -74,7 +85,7 @@
 
         table.render({
             elem: '#book_table'
-            ,url:'test'
+            ,url:'get_book_data'
             ,cols:[[
                 {field:'id',title:'ID'}
                 ,{field:'name',title:'名称'}
@@ -86,6 +97,14 @@
             ,id:'tableRelod'
             ,page:{
                 group:3,
+            }
+            ,done:function (res,cuur,count) {
+                if(res['msg'] !=''){
+                    layer.msg(res['msg']);
+                }
+                if(count == 0){
+                    layer.msg('无数据');
+                }
             }
         })
     });

@@ -16,6 +16,31 @@ class Book extends Base
         return $this->fetch();
     }
 
+    /***
+     * 获取商品列表
+     */
+    public function get_book_data()
+    {
+        $msg = '';
+        $book = new BookModel();
+        do{
+            //获取过滤条件
+            $search = isset($_GET['where']) ? $_GET['where'] : '';
+            if(!isset($_GET['page']) || !isset($_GET['limit'])){
+                $msg = '参数错误';
+                break;
+            }
+            $count = $book->get_book_count($search);
+            $res = $book->get_book_data($search);
+        }while(false);
+        $data = array(
+            'code' => 0,
+            'msg' => $msg,
+            'data' => $res,
+            'count' => $count,
+        );
+        echo json_encode($data);
+    }
 
     /***
      * 商品分类页面

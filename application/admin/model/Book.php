@@ -31,4 +31,25 @@ class Book extends Base
         return $arr;
     }
 
+
+    /**
+     * 获取商品条数
+     */
+    public function get_book_count($search)
+    {
+        $where = '';
+//        if(isset($search['name'])){
+//            $where = 'name like \'%'.$search['name'].'%\'';
+//        }
+        return Db::name('book')->where($where)->count();
+    }
+
+    /***
+     * 获取商品列表
+     */
+    public function get_book_data($search)
+    {
+
+    }
+
 }
