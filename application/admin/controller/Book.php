@@ -73,8 +73,6 @@ class Book extends Base
             $this->assign('info',$info);
         }
         //查询顶级栏目
-//        $top = $cate->name('cate')->where('pid',0)->select();
-//        $this->assign('top',$top);
         $lists = $cate->cateTree();
         $this->assign('lists',$lists);
         return $this->fetch('cate_edit');
