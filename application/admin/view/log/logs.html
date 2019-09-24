@@ -1,49 +1,51 @@
 <!DOCTYPE html>
 <html class="x-admin-sm">
-    
-    <head>
-        {include file="base/head" /}
-    </head>
-    
-    <body>
-        <div class="x-nav">
+
+<head>
+    {include file="base/head" /}
+</head>
+
+<body>
+<div class="x-nav">
             <span class="layui-breadcrumb">
                 <a href="">首页</a>
                 <a href="">系统管理</a>
                 <a>
                     <cite>操作日志</cite></a>
             </span>
-            <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
-                <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
-            </a>
-        </div>
-        <div class="layui-fluid layui-form">
-            <div class="layui-row layui-col-space15">
-                <div class="layui-col-md12">
-                    <div class="layui-card">
-                        <div class="layui-card-body ">
-                            <form class="layui-form layui-col-space5">
-                                <div class="layui-inline layui-show-xs-block">
-                                    <input type="text" placeholder="请输入操作者" autocomplete="off" class="layui-input" name="name"></div>
-                                <div class="layui-inline layui-show-xs-block">
-                                    <button class="layui-btn btn-search" lay-submit lay-filter="table-search" id="table-search">
-                                        <i class="layui-icon">&#xe615;</i></button>
-                                </div>
-                            </form>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+    </a>
+</div>
+<div class="layui-fluid layui-form">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <form class="layui-form layui-col-space5">
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" placeholder="请输入操作者" autocomplete="off" class="layui-input" name="name">
                         </div>
-                        <div class="layui-card-body ">
-                            <table id="logs_table" lay-filter="test"></table>
+                        <div class="layui-inline layui-show-xs-block">
+                            <button class="layui-btn btn-search" lay-submit lay-filter="table-search" id="table-search">
+                                <i class="layui-icon">&#xe615;</i></button>
                         </div>
-                    </div>
+                    </form>
+                </div>
+                <div class="layui-card-body ">
+                    <table id="logs_table" lay-filter="test"></table>
                 </div>
             </div>
         </div>
-    </body>
-    <script src="__STATIC__/js/jquery-2.1.4.min.js"></script>
-    <script src="__STATIC__/js/common.js"></script>
-    <script>
-        layui.use('laydate',
-        function() {
+    </div>
+</div>
+</body>
+<script src="__STATIC__/js/jquery-2.1.4.min.js"></script>
+<script src="__STATIC__/js/common.js"></script>
+<script>
+    layui.use('laydate',
+        function () {
             var laydate = layui.laydate;
 
             //执行一个laydate实例
@@ -57,73 +59,73 @@
             });
 
         });
-    </script>
-    <script>
-        layui.use(['layer', 'table', 'form'], function() {
-            var $ = layui.jquery;
-            var layer = layui.layer;
-            table = layui.table;
-            var form = layui.form;
-            table.render({
-                elem: '#logs_table'
-                ,url:'get_log_data'
-                ,cols:[[
-                    {field: 'id', title: 'ID',sort: true}
-                    ,{field: 'name', title: '操作者',sort: true}
-                    ,{field: 'logs', title: '动作'}
-                    ,{field: 'create_time', title: '时间',sort: true}
-                ]]
-                ,id:'tableReload'
-                ,sort:true
-                ,initSort:{
-                    field:'id'
-                    ,type:'desc'
+</script>
+<script>
+    layui.use(['layer', 'table', 'form'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        table = layui.table;
+        var form = layui.form;
+        table.render({
+            elem: '#logs_table'
+            , url: 'get_log_data'
+            , cols: [[
+                {field: 'id', title: 'ID', sort: true}
+                , {field: 'name', title: '操作者', sort: true}
+                , {field: 'logs', title: '动作'}
+                , {field: 'create_time', title: '时间', sort: true}
+            ]]
+            , id: 'tableReload'
+            , sort: true
+            , initSort: {
+                field: 'id'
+                , type: 'desc'
+            }
+            , page: {
+                group: 3,
+            }
+            , done: function (res, curr, count) {
+                if (res['msg'] != '') {
+                    layer.msg(res['msg']);
                 }
-                ,page:{
-                    group:3,
-                }
-                ,done:function (res,curr,count) {
-                    if(res['msg']!= ''){
-                        layer.msg(res['msg']);
-                    }
-                }
-            });
-
-            //监听排序
-            table.on('sort(test)',function (obj) {
-                //layui中table会有三种排序状态，按顺序分别是  升序(asc)、降序(desc)、返回点击前初始状态排序(null)。
-                //跳过null阶段
-                if(obj.type != 'desc' && obj.type != 'asc'){
-                    obj.type = 'asc';
-                }
-                table.reload('tableReload', {
-                    initSort: obj ////记录初始排序，如果不设的话，将无法标记表头的排序状态。 layui 2.1.1 新增参数
-                    ,where: {
-                        field : obj.field
-                        ,order: obj.type
-                    }
-                });
-            })
-
-            //监听搜索
-            form.on('submit(table-search)', function (data) {
-                var field = data.field;
-                //执行重载
-                table.reload('tableReload', {
-                    where: {where: field}
-                });
-                return false;
-            });
-
-            //键盘事件
-            $(document).keydown(function (e) {
-                if (e.keyCode == 13) {
-                    document.getElementById("table-search").click();
-                }
-            })
-
-
+            }
         });
-        
-    </script>
+
+        //监听排序
+        table.on('sort(test)', function (obj) {
+            //layui中table会有三种排序状态，按顺序分别是  升序(asc)、降序(desc)、返回点击前初始状态排序(null)。
+            //跳过null阶段
+            if (obj.type != 'desc' && obj.type != 'asc') {
+                obj.type = 'asc';
+            }
+            table.reload('tableReload', {
+                initSort: obj ////记录初始排序，如果不设的话，将无法标记表头的排序状态。 layui 2.1.1 新增参数
+                , where: {
+                    field: obj.field
+                    , order: obj.type
+                }
+            });
+        })
+
+        //监听搜索
+        form.on('submit(table-search)', function (data) {
+            var field = data.field;
+            //执行重载
+            table.reload('tableReload', {
+                where: {where: field}
+            });
+            return false;
+        });
+
+        //键盘事件
+        $(document).keydown(function (e) {
+            if (e.keyCode == 13) {
+                document.getElementById("table-search").click();
+            }
+        })
+
+
+    });
+
+</script>
 </html>

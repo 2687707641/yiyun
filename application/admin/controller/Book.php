@@ -43,6 +43,16 @@ class Book extends Base
     }
 
     /***
+     * 获取商品分类
+     */
+    public function get_type()
+    {
+        $book = new BookModel();
+        $data = $book->name('cate')->field('name,id')->where('pid',0)->select();
+        echo json_encode($data);
+    }
+
+    /***
      * 商品分类页面
      */
     public function cate()
