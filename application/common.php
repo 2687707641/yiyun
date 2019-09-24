@@ -27,3 +27,16 @@ function getMemberRoleToString($id)
     }
     return implode(',', $list);
 }
+
+/***
+ * 获取子栏目
+ */
+function getChildCate($id)
+{
+//    $child = \app\admin\model\Book::where('pid',$id)->find();
+    $child = \think\Db::name('cate')->where('pid',$id)->find();
+    if(empty($child)){
+        return '';
+    }
+    return $child;
+}

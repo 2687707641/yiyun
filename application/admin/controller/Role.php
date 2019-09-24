@@ -6,6 +6,7 @@ namespace app\admin\controller;
 use app\admin\model\AuthGroup;
 use app\admin\model\AuthRule;
 use app\admin\model\Logs;
+
 class Role extends Base
 {
     public function lists()
