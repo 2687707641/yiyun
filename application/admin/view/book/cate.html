@@ -49,7 +49,7 @@
                                 {/if}
                                 {$vo.name}
                             </td>
-                            <td>{$vo.desc}</td>
+                            <td>{$vo.remarks}</td>
                             <td><input type="text" class="layui-input x-sort" name="order" value="{$vo.sort}"></td>
                             <td>
                                 {if $vo['status']==0}
@@ -62,7 +62,7 @@
                                 <button class="layui-btn layui-btn layui-btn-xs"
                                         onclick="xadmin.open('编辑','{:url('book/cate_edit',['id'=>$vo['id']])}')"><i class="layui-icon">&#xe642;</i>编辑
                                 </button>
-                                <button msg="确定要删除吗?" class="layui-btn-danger layui-btn layui-btn-xs ajax_get confirm" href="{:url('cate_del',['id'=>$vo['id']])}" ><i class="layui-icon">&#xe640;</i>删除</button>
+                                <button msg="删除此分类会删除相应商品,确定要删除吗?" class="layui-btn-danger layui-btn layui-btn-xs ajax_get confirm" href="{:url('cate_del',['id'=>$vo['id']])}" ><i class="layui-icon">&#xe640;</i>删除</button>
                             </td>
                         </tr>
                         {/volist}

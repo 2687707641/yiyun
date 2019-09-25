@@ -118,7 +118,7 @@ CREATE TABLE `tb_cate` (
   `id` int(30) NOT NULL AUTO_INCREMENT COMMENT '栏目ID',
   `name` varchar(255) DEFAULT NULL COMMENT '栏目名称',
   `pid` int(30) DEFAULT '0' COMMENT '所属栏目id(0:顶级栏目,非0:id为此值的次级栏目)',
-  `desc` varchar(255) DEFAULT NULL COMMENT '描述',
+  `remarks` varchar(255) DEFAULT NULL COMMENT '描述',
   `sort` int(30) DEFAULT '1' COMMENT '排序',
   `status` int(11) DEFAULT '0' COMMENT '状态(0:启用,1:禁用)',
   PRIMARY KEY (`id`)
