@@ -39,15 +39,15 @@
                             </select>
                         </div>
                         <div class="layui-input-inline layui-show-xs-block">
-                            <input type="text" name="username" placeholder="请输入名称" autocomplete="off" class="layui-input"></div>
+                            <input type="text" name="name" placeholder="请输入商品名称" autocomplete="off" class="layui-input"></div>
                         <div class="layui-input-inline layui-show-xs-block">
-                            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                            <button class="layui-btn" lay-submit lay-filter="table-search" id="table-search">
                                 <i class="layui-icon">&#xe615;</i></button>
                         </div>
                     </form>
                 </div>
                 <div class="layui-card-header">
-                    <button class="layui-btn layui-btn-danger">
+                    <button msg="测试" class="layui-btn layui-btn-danger ajax_get confirm">
                         <i class="layui-icon"></i>批量删除</button>
                     <button class="layui-btn" onclick="xadmin.open('添加商品','./order-add.html',800,600)">
                         <i class="layui-icon"></i>添加商品</button>
@@ -62,6 +62,12 @@
 </body>
 <script src="__STATIC__/js/jquery-2.1.4.min.js"></script>
 <script src="__STATIC__/js/common.js"></script>
+<script type="text/html" id="barDemo">
+    <a title="编辑" onclick="xadmin.open('编辑','123',600,450)" href="javascript:;">
+        <i class="layui-icon">&#xe642;</i>
+    </a>
+    <a title="删除" msg="确定要删除吗?" href="123" class="ajax_get confirm"><i class="layui-icon">&#xe640;</i></a>
+</script>
 <script>
     layui.use(['layer', 'table', 'form'], function() {
         var $ = layui.jquery;
@@ -74,18 +80,23 @@
             ,url:'get_book_data'
             ,cols:[[
                 {field:'id',title:'ID',sort:true}
-                ,{field:'name',title:'名称',sort:true}
+                ,{field:'name',title:'商品名称',sort:true}
                 ,{field:'author',title:'作者',sort:true}
                 ,{field:'remarks',title:'描述'}
                 ,{field:'pid',title:'类别'}
                 ,{field:'num',title:'数量',sort:true}
                 ,{field:'price',title:'价格',sort:true}
-                ,{field:'test',title:'操作',templet:function (d) {
+                ,{fiexd:'right',title:'操作',templet:function (d) {
                         return '<a title="编辑" href="javascript:;" '+" onclick=\" xadmin.open('编辑','book_edit',600,500)\" " +'><i class="layui-icon">&#xe642;</i></a>' +
                             '<a title="删除" msg="确定删除该商品吗?" href="javascript:;" class="ajax_get confirm"><i class="layui-icon">&#xe640;</i></a>';
                     }}
             ]]
-            ,id:'tableRelod'
+            , sort: true
+            , initSort: {
+                field: 'id'
+                , type: 'desc'
+            }
+            ,id:'tableReload'
             ,page:{
                 group:3,
             }
@@ -96,6 +107,40 @@
                 if(count == 0){
                     layer.msg('无数据');
                 }
+            }
+        })
+
+        //监听排序
+        table.on('sort(test)', function (obj) {
+            //layui中table会有三种排序状态，按顺序分别是  升序(asc)、降序(desc)、返回点击前初始状态排序(null)。
+            //跳过null阶段
+            if (obj.type != 'desc' && obj.type != 'asc') {
+                obj.type = 'asc';
+            }
+            // console.log(obj.field);
+            table.reload('tableReload', {
+                initSort: obj ////记录初始排序，如果不设的话，将无法标记表头的排序状态。 layui 2.1.1 新增参数
+                , where: {
+                    field: obj.field
+                    , order: obj.type
+                }
+            });
+        })
+
+        //监听搜索
+        form.on('submit(table-search)', function (data) {
+            var field = data.field;
+            //执行重载
+            table.reload('tableReload', {
+                where: {where: field}
+            });
+            return false;
+        });
+
+        //键盘事件
+        $(document).keydown(function (e) {
+            if (e.keyCode == 13) {
+                document.getElementById("table-search").click();
             }
         })
 
