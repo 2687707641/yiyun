@@ -42,7 +42,7 @@
                     </select>
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item" {if !isset($info['username'])}style="display:none"{/if}>
                 <label for="L_pass" class="layui-form-label">
                     <span class="x-red">*</span>原密码
                 </label>
@@ -56,7 +56,7 @@
             </div>
             <div class="layui-form-item">
                 <label for="L_pass" class="layui-form-label">
-                    <span class="x-red">*</span>新密码
+                    <span class="x-red">*</span>{if isset($info['username'])}新{/if}密码
                 </label>
                 <div class="layui-input-inline">
                     <input type="password" id="L_pass" name="password" required="" lay-verify="pass"

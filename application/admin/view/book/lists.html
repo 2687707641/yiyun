@@ -47,7 +47,7 @@
                     </form>
                 </div>
                 <div class="layui-card-header">
-                    <button class="layui-btn layui-btn-danger" onclick="delAll()">
+                    <button class="layui-btn layui-btn-danger">
                         <i class="layui-icon"></i>批量删除</button>
                     <button class="layui-btn" onclick="xadmin.open('添加商品','./order-add.html',800,600)">
                         <i class="layui-icon"></i>添加商品</button>
@@ -81,8 +81,8 @@
                 ,{field:'num',title:'数量',sort:true}
                 ,{field:'price',title:'价格',sort:true}
                 ,{field:'test',title:'操作',templet:function (d) {
-                        return '<a title="编辑" href="javascript:;"><i class="layui-icon">&#xe642;</i></a>' +
-                            '<a title="删除" href="javascript:;"><i class="layui-icon">&#xe640;</i></a>';
+                        return '<a title="编辑" href="javascript:;" '+" onclick=\" xadmin.open('编辑','book_edit',600,500)\" " +'><i class="layui-icon">&#xe642;</i></a>' +
+                            '<a title="删除" msg="确定删除该商品吗?" href="javascript:;" class="ajax_get confirm"><i class="layui-icon">&#xe640;</i></a>';
                     }}
             ]]
             ,id:'tableRelod'
@@ -122,35 +122,32 @@
         });
 
         //select联动(监听select1)
-        form.on('select(top_kind)',function (data) {
-            console.log(data.value);
-            $("#second_kind").find('option').remove();
-            if(data.value == 0){
-                return 0;
-            }
-            $.ajax({
-                type: "POST",
-                //提交的网址
-                url: "get_book_type",
-                data:{
-                  id:data.value,
-                },
-                //     //返回数据的格式
-                datatype: "json",//“xml”, “html”, “script”, “json”, “jsonp”, “text”.
-                //     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                //     //成功返回之后调用的函数
-                success: function (data) {
-                    var json = $.parseJSON(data);
-                    $.each(json, function (index, item) {
-                        $('#second_kind').append(new Option(item.name, item.id));// 下拉菜单里添加元素
-                    });
-                    // console.log(data);
-                    form.render("select");
-                }, error: function () {
-                    layer.msg("商品类别读取失败");
-                }
-            });
-        })
+        // form.on('select(top_kind)',function (data) {
+        //     console.log(data.value);
+        //     $("#second_kind").find('option').remove();
+        //     $.ajax({
+        //         type: "POST",
+        //         //提交的网址
+        //         url: "get_book_type",
+        //         data:{
+        //           id:data.value,
+        //         },
+        //         //     //返回数据的格式
+        //         datatype: "json",//“xml”, “html”, “script”, “json”, “jsonp”, “text”.
+        //         //     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        //         //     //成功返回之后调用的函数
+        //         success: function (data) {
+        //             var json = $.parseJSON(data);
+        //             $.each(json, function (index, item) {
+        //                 $('#second_kind').append(new Option(item.name, item.id));// 下拉菜单里添加元素
+        //             });
+        //             console.log(data);
+        //             form.render("select");
+        //         }, error: function () {
+        //             layer.msg("商品类别读取失败");
+        //         }
+        //     });
+        // })
 
     });
 
