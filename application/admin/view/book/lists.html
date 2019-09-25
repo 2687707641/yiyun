@@ -24,34 +24,18 @@
                 <div class="layui-card-body ">
                     <form class="layui-form layui-col-space5">
                         <div class="layui-input-inline layui-show-xs-block">
-                            <select name="top_kind" lay-select id="top_kind">
-                                <option>全部</option>
-<!--                                <option>经典文学</option>-->
-<!--                                <option>诗歌歌剧</option>-->
-<!--                                <option>学习教育</option>-->
-<!--                                <option>小说大全</option>-->
+                            <select name="top_kind" lay-select id="top_kind" lay-filter="top_kind">
+                                <option value="0">全部</option>
                             </select>
                         </div>
                         <div class="layui-input-inline layui-show-xs-block">
-                            <select name="second_kind" lay-select id="second_kind">
-                                <option value="">全部</option>
-<!--                                <option value="0">待确认</option>-->
-<!--                                <option value="1">已确认</option>-->
-<!--                                <option value="2">已收货</option>-->
-<!--                                <option value="3">已取消</option>-->
-<!--                                <option value="4">已完成</option>-->
-<!--                                <option value="5">已作废</option>-->
+                            <select name="second_kind" lay-select id="second_kind" lay-filter="second_kind">
+                                <option value="0">全部</option>
                             </select>
                         </div>
                         <div class="layui-input-inline layui-show-xs-block">
                             <select name="third_kind" lay-select id="third_kind">
-                                <option value="">全部</option>
-                                <!--                                <option value="0">待确认</option>-->
-                                <!--                                <option value="1">已确认</option>-->
-                                <!--                                <option value="2">已收货</option>-->
-                                <!--                                <option value="3">已取消</option>-->
-                                <!--                                <option value="4">已完成</option>-->
-                                <!--                                <option value="5">已作废</option>-->
+                                <option value="0">全部</option>
                             </select>
                         </div>
                         <div class="layui-input-inline layui-show-xs-block">
@@ -89,14 +73,17 @@
             elem: '#book_table'
             ,url:'get_book_data'
             ,cols:[[
-                {field:'id',title:'ID'}
-                ,{field:'name',title:'名称'}
-                ,{field:'author',title:'作者'}
+                {field:'id',title:'ID',sort:true}
+                ,{field:'name',title:'名称',sort:true}
+                ,{field:'author',title:'作者',sort:true}
                 ,{field:'desc',title:'描述'}
                 ,{field:'type',title:'类别'}
-                ,{field:'num',title:'数量'}
-                ,{field:'price',title:'价格'}
-                ,{field:'test',title:'操作'}
+                ,{field:'num',title:'数量',sort:true}
+                ,{field:'price',title:'价格',sort:true}
+                ,{field:'test',title:'操作',templet:function (d) {
+                        return '<a title="编辑" href="javascript:;"><i class="layui-icon">&#xe642;</i></a>' +
+                            '<a title="删除" href="javascript:;"><i class="layui-icon">&#xe640;</i></a>';
+                    }}
             ]]
             ,id:'tableRelod'
             ,page:{
@@ -117,7 +104,7 @@
             $.ajax({
                 type: "POST",
                 //提交的网址
-                url: "get_type",
+                url: "get_book_type",
             //     //返回数据的格式
                 datatype: "json",//“xml”, “html”, “script”, “json”, “jsonp”, “text”.
             //     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
@@ -127,13 +114,44 @@
                     $.each(json, function (index, item) {
                         $('#top_kind').append(new Option(item.name, item.id));// 下拉菜单里添加元素
                     });
-                    console.log(data);
                     form.render("select");
                 }, error: function () {
-                    // layer.msg("商品类别读取失败");
+                    layer.msg("商品类别读取失败");
                 }
             });
         });
+
+        //select联动(监听select1)
+        form.on('select(top_kind)',function (data) {
+            console.log(data.value);
+            $("#second_kind").find('option').remove();
+            if(data.value == 0){
+                return 0;
+            }
+            $.ajax({
+                type: "POST",
+                //提交的网址
+                url: "get_book_type",
+                data:{
+                  id:data.value,
+                },
+                //     //返回数据的格式
+                datatype: "json",//“xml”, “html”, “script”, “json”, “jsonp”, “text”.
+                //     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                //     //成功返回之后调用的函数
+                success: function (data) {
+                    var json = $.parseJSON(data);
+                    $.each(json, function (index, item) {
+                        $('#second_kind').append(new Option(item.name, item.id));// 下拉菜单里添加元素
+                    });
+                    // console.log(data);
+                    form.render("select");
+                }, error: function () {
+                    layer.msg("商品类别读取失败");
+                }
+            });
+        })
+
     });
 
 </script>

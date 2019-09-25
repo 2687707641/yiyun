@@ -45,10 +45,10 @@ class Book extends Base
     /***
      * 获取商品分类
      */
-    public function get_type()
+    public function get_book_type($id= 0)
     {
         $book = new BookModel();
-        $data = $book->name('cate')->field('name,id')->where('pid',0)->select();
+        $data = $book->name('cate')->field('name,id')->where('pid',$id)->select();
         echo json_encode($data);
     }
 

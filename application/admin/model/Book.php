@@ -41,7 +41,7 @@ class Book extends Base
 //        if(isset($search['name'])){
 //            $where = 'name like \'%'.$search['name'].'%\'';
 //        }
-        return Db::name('book')->where($where)->count();
+        return Db::name('book')->count();
     }
 
     /***
@@ -49,7 +49,18 @@ class Book extends Base
      */
     public function get_book_data($search)
     {
-
+        $where = '';
+//        if(isset($search['name'])){
+//            $where = 'name like \'%'.$search['name'].'%\'';
+//        }
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $offset = isset($_GET['limit']) ? $_GET['limit'] : 10;
+//        $limit  = " limit " . ($page - 1) * $offset . "," . $offset;
+        $limit  = ($page - 1) * $offset . "," . $offset;
+//        $res = Db::name('logs')->where($where)->order($order)->limit($limit)->select();
+        $res = Db::name('book')->where($where)->limit($limit)->select();
+//        Log::record($this->getLastSql());
+        return $res;
     }
 
 }
