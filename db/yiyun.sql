@@ -96,13 +96,53 @@ INSERT INTO `tb_manager` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e
 DROP TABLE IF EXISTS `tb_user`;
 CREATE TABLE `tb_user` (
   `id` int(50) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `phone` varchar(255) DEFAULT NULL COMMENT '用户电话',
-  `password` varchar(255) DEFAULT NULL COMMENT '用户密码',
+  `phone` varchar(255) NOT NULL COMMENT '用户手机号',
   `nickname` varchar(255) DEFAULT NULL COMMENT '用户昵称',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `password` varchar(255) DEFAULT NULL COMMENT '用户密码',
+  `level` tinyint(2) DEFAULT '0' COMMENT '用户VIP等级(0:普通,1:会员,2:铂金会员)',
+  `status` tinyint(2) DEFAULT '0' COMMENT '账户状态 0:正常',
+  `deleted` tinyint(2) DEFAULT '0' COMMENT '是否删除(0:正常,1:被删除)',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of tb_user
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for tb_cate
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_cate`;
+CREATE TABLE `tb_cate` (
+  `id` int(30) NOT NULL AUTO_INCREMENT COMMENT '栏目ID',
+  `name` varchar(255) DEFAULT NULL COMMENT '栏目名称',
+  `pid` int(30) DEFAULT '0' COMMENT '所属栏目id(0:顶级栏目,非0:id为此值的次级栏目)',
+  `desc` varchar(255) DEFAULT NULL COMMENT '描述',
+  `sort` int(30) DEFAULT '1' COMMENT '排序',
+  `status` int(11) DEFAULT '0' COMMENT '状态(0:启用,1:禁用)',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='商品栏目表';
+
+-- ----------------------------
+-- Records of tb_cate
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for tb_book
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_book`;
+CREATE TABLE `tb_book` (
+  `id` int(30) NOT NULL AUTO_INCREMENT COMMENT '商品ID',
+  `name` varchar(255) DEFAULT NULL COMMENT '商品名称',
+  `price` decimal(10,2) DEFAULT NULL COMMENT '商品价格',
+  `num` int(50) DEFAULT NULL COMMENT '商品数量',
+  `remarks` varchar(255) DEFAULT NULL COMMENT '描述',
+  `author` varchar(255) DEFAULT NULL COMMENT '作者',
+  `pid` int(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='商品表';
+
+-- ----------------------------
+-- Records of tb_book
 -- ----------------------------
