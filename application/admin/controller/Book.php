@@ -103,13 +103,13 @@ class Book extends Base
                 $this->error($cate->name('cate')->getError(),'');
             }
         }
+        //查询顶级栏目
+        $lists = $cate->cateTree();
+        $this->assign('lists',$lists);
         if($id){
             $info = $cate->name('cate')->where('id',$id)->find();
             $this->assign('info',$info);
         }
-        //查询顶级栏目
-        $lists = $cate->cateTree();
-        $this->assign('lists',$lists);
         return $this->fetch('cate_edit');
     }
 

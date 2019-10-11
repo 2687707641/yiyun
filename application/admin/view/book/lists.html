@@ -150,10 +150,9 @@
                 type: "POST",
                 //提交的网址
                 url: "get_book_type",
-            //     //返回数据的格式
+                //返回数据的格式
                 datatype: "json",//“xml”, “html”, “script”, “json”, “jsonp”, “text”.
-            //     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-            //     //成功返回之后调用的函数
+                //成功返回之后调用的函数
                 success: function (data) {
                     var json = $.parseJSON(data);
                     $.each(json, function (index, item) {
@@ -167,32 +166,34 @@
         });
 
         //select联动(监听select1)
-        // form.on('select(top_kind)',function (data) {
-        //     console.log(data.value);
-        //     $("#second_kind").find('option').remove();
-        //     $.ajax({
-        //         type: "POST",
-        //         //提交的网址
-        //         url: "get_book_type",
-        //         data:{
-        //           id:data.value,
-        //         },
-        //         //     //返回数据的格式
-        //         datatype: "json",//“xml”, “html”, “script”, “json”, “jsonp”, “text”.
-        //         //     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-        //         //     //成功返回之后调用的函数
-        //         success: function (data) {
-        //             var json = $.parseJSON(data);
-        //             $.each(json, function (index, item) {
-        //                 $('#second_kind').append(new Option(item.name, item.id));// 下拉菜单里添加元素
-        //             });
-        //             console.log(data);
-        //             form.render("select");
-        //         }, error: function () {
-        //             layer.msg("商品类别读取失败");
-        //         }
-        //     });
-        // })
+        form.on('select(top_kind)',function (data) {
+            console.log(data.value);
+            $("#second_kind").find('option').remove();
+            if(data.value == 0){
+                return 0;
+            }
+            $.ajax({
+                type: "POST",
+                //提交的网址
+                url: "get_book_type",
+                data:{
+                  id:data.value,
+                },
+                //返回数据的格式
+                datatype: "json",//“xml”, “html”, “script”, “json”, “jsonp”, “text”.
+                // 成功返回之后调用的函数
+                success: function (data) {
+                    var json = $.parseJSON(data);
+                    $.each(json, function (index, item) {
+                        $('#second_kind').append(new Option(item.name, item.id));// 下拉菜单里添加元素
+                    });
+                    console.log(data);
+                    form.render("select");
+                }, error: function () {
+                    layer.msg("商品类别读取失败");
+                }
+            });
+        })
 
     });
 
